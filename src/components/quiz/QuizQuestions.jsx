@@ -1,13 +1,14 @@
-import { useContext } from "react";
+
 import quizQuestions from "../../data/quiz-questions"
 import QuizList from "./QuizList"
 import QuizSummary from "./QuizSummary";
-import { ContextQuiz } from "../context/contextQuizProvider";
+import useContextQuiz from "../../lib/hooks/useContextQuiz";
 export default function QuizQuestions() {
 
-    const { aswered, handleAnswer } = useContext(ContextQuiz)
+    const { items } = useContextQuiz()
 
-    const activeIndex = aswered.length;
+    const activeIndex = items.length;
+    console.log(activeIndex);
     const isQuizCompleted = activeIndex === quizQuestions.length;
 
 
@@ -26,7 +27,7 @@ export default function QuizQuestions() {
             <h1 className="mb-3 text-white font-semibold">{activeIndex + 1}. {quizQuestions[activeIndex].text}</h1>
             <ul>
                 {randomAnswers.map((answer, i) => (
-                    <QuizList handleAnswer={() => handleAnswer(answer)} key={i + quizQuestions[activeIndex].id} answer={answer} />
+                    <QuizList key={i + quizQuestions[activeIndex].id} answer={answer} />
                 ))}
             </ul>
         </div>

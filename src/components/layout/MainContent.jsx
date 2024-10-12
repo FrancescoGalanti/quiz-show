@@ -1,17 +1,19 @@
 
-import { useContext } from "react";
+
 import QuizQuestions from "../quiz/QuizQuestions";
 import SplashScreen from "./SplashScreen";
-import { ContextQuiz } from "../context/contextQuizProvider";
+import useContextQuiz from "../../lib/hooks/useContextQuiz";
 
 
 export default function MainContent() {
-    const { isVisible, showQuiz } = useContext(ContextQuiz)
+    const { visibility } = useContextQuiz()
+
+    console.log(visibility)
 
     return (
         <main className="grow">
             {
-                !isVisible ? <SplashScreen showQuiz={showQuiz} /> :
+                visibility === false ? <SplashScreen /> :
                     <QuizQuestions />
             }
 

@@ -1,32 +1,23 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
+import AsweredVisibilityReduce from "../../lib/reduce/AsweredVisibilityReduce";
+import { InitialAsweredVisibility } from "../../lib/constants/quizConstants";
 
 export const ContextQuiz = createContext()
 
+
+
+
+
 export default function ContextQuizProvider({ children }) {
 
-    const [aswered, setAnswered] = useState([]);
+    const [state, dispatch] = useReducer(AsweredVisibilityReduce, InitialAsweredVisibility)
 
-    const [isVisible, setIsVisible] = useState(false);
 
-    function showQuiz() {
-        setIsVisible(true)
-    }
-    function hideQuiz() {
-        setIsVisible(false);
-    }
-
-    function handleAnswer(answer) {
-        setAnswered(prev => [...prev, answer])
-    }
-    function handleReset() {
-        setAnswered([]);
-        hideQuiz();
-    }
 
     return (
-        <ContextQuiz.Provider value={{ aswered, handleAnswer, handleReset, showQuiz, isVisible }}>
+        <ContextQuiz.Provider value={{ items: state.items, visibility: state.visibility, dispatch }}>
             {children}
-        </ContextQuiz.Provider>
+        </ContextQuiz.Provider >
 
     )
 }

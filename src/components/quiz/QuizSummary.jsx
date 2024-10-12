@@ -1,17 +1,16 @@
 
 import Button from "../UI/Button";
 import quizQuestions from "../../data/quiz-questions";
-import { useContext } from "react";
 import ShowReview from "./ShowReview";
-import { ContextQuiz } from "../context/contextQuizProvider";
+import useContextQuiz from "../../lib/hooks/useContextQuiz";
 
 
 
 export default function QuizSummary() {
-    const { handleReset, aswered } = useContext(ContextQuiz)
+    const { items, dispatch } = useContextQuiz()
 
 
-    const rightAnswer = aswered.filter((answer, index) => answer === quizQuestions[index].answers[0]).length
+    const rightAnswer = items.filter((answer, index) => answer === quizQuestions[index].answers[0]).length
     const correctAnswersPercentage = Math.round(rightAnswer * 100 / quizQuestions.length);
     console.log(correctAnswersPercentage)
     const wrongAnsersPercentage = 100 - correctAnswersPercentage;
@@ -38,9 +37,9 @@ export default function QuizSummary() {
                 </div>
 
             </div>
-            <Button onClick={handleReset} className="mt-16">Restart Quiz</Button>
+            <Button onClick={() => dispatch({ type: "HANDLE_RESET" })} className="mt-16">Restart Quiz</Button>
             <div className="mt-16 bg-white/80 px-3 py-4 w-96">
-                <ShowReview aswered={aswered} />
+                <ShowReview aswered={items} />
             </div>
         </div >
     )
